@@ -7,7 +7,7 @@
 		"main": "run-p dev-server dev",
 		"dev": "vite",
 		"build-server": "tsc --project server/tsconfig.json",
-		"run-server": "node server/dist/main.js",
+		"run-server": "node server/dist/server/main.js",
 		"dev-server": "npm run build-server && npm run run-server",
 		"build": "vue-tsc && vite build",
 		"preview": "vite preview"

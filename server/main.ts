@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { getAllTutorials, prepareTutorial } from "./tutorials.js";
-import { HttpError } from "./Error.js";
+import { getTutorialsWithMeta, prepareTutorial } from "./src/tutorials.js";
+import { HttpError } from "./src/Error.js";
 
 const app = express();
 app.use(cors());
@@ -14,14 +14,14 @@ app.get("/", (_req, res) => {
 
 app.get("/tutorials", async (_req, res) => {
 	try {
-		const tutorials = await getAllTutorials();
+		const tutorials = await getTutorialsWithMeta();
 		res.send(JSON.stringify(tutorials));
 	} catch (e) {
 		HttpError.fromError(e as Error).send(res);
 	}
 });
 
-app.get("/tutorial/:tutorialId", async (req, res) => {
+app.post("/tutorial/:tutorialId", async (req, res) => {
 	try {
 		const path = await prepareTutorial(req.params.tutorialId);
 		res.send(JSON.stringify(path));
