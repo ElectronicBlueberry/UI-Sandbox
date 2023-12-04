@@ -25,6 +25,24 @@ export async function getTutorialsWithMeta() {
 	);
 	const byCategory: Record<string, TutorialWithMeta[]> = {};
 
+	let categories: string[] = [];
+	const categoriesPath = path.join(
+		tutorialTemplatesBasePath,
+		"categories.json",
+	);
+
+	try {
+		categories = JSON.parse(await fs.readFile(categoriesPath, "utf-8"));
+	} catch (_e) {
+		console.warn(
+			`No categories defined, "${categoriesPath}" could not be read.`,
+		);
+	}
+
+	categories.forEach((category) => {
+		byCategory[category] = [];
+	});
+
 	allTutorials.forEach((tutorial, index) => {
 		const meta = tutorialMetas[index]!;
 
@@ -36,6 +54,9 @@ export async function getTutorialsWithMeta() {
 
 		if (!byCategory[meta.category]) {
 			byCategory[meta.category] = tutorialsInCategory;
+			console.warn(
+				`Unknown category "${meta.category}" found in tutorial "${tutorial}". Category will be appended to end of record.`,
+			);
 		}
 	});
 
