@@ -1,7 +1,7 @@
 # UI Sandbox
 
 A simple and fast minimal framework for teaching vue+ts.
-UI Sandbox allows you to define multiple interactive sandboxes to teach using different scenarios.
+UI Sandbox allows you to define multiple interactive sandboxes to teach using pre-built scenarios.
 
 Runs on vite, and a minimal express backend for managing files.
 
