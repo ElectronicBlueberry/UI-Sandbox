@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import type TutorialWithMeta from "../../api_types/tutorialsWithMeta";
+import type SandboxInformation from "../../api_types/sandbox";
 
-const tutorials = ref<Record<string, TutorialWithMeta[]>>({});
+const sandboxes = ref<Record<string, SandboxInformation[]>>({});
 
 onMounted(async () => {
-	const response = await fetch("http://localhost:3000/tutorials");
-	tutorials.value = await response.json();
+	const response = await fetch("http://localhost:3000/sandboxes");
+	sandboxes.value = await response.json();
 });
 
-function prettifyTutorialName(name: string) {
+function prettifySandboxName(name: string) {
 	const words = name.split("_");
 	const capitalized = words.map(
 		(word) => word.charAt(0).toUpperCase() + word.slice(1),
@@ -19,15 +19,15 @@ function prettifyTutorialName(name: string) {
 </script>
 
 <template>
-	<h1>Available Tutorials</h1>
+	<h1>Available Sandboxes</h1>
 
-	<template v-for="category in Object.keys(tutorials)">
+	<template v-for="category in Object.keys(sandboxes)">
 		<h2>{{ category }}</h2>
 
 		<ul>
-			<li v-for="tutorial in tutorials[category]">
-				<router-link :to="`/tutorial/${tutorial.name}`">
-					{{ prettifyTutorialName(tutorial.name) }}
+			<li v-for="sandbox in sandboxes[category]">
+				<router-link :to="`/sandbox/${sandbox.name}`">
+					{{ prettifySandboxName(sandbox.name) }}
 				</router-link>
 			</li>
 		</ul>

@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Tutorial from "./components/Tutorial.vue";
+import Sandbox from "./components/Sandbox.vue";
 import Overview from "./components/Overview.vue";
 
 const routes = [
@@ -8,8 +8,8 @@ const routes = [
 		component: Overview,
 	},
 	{
-		path: "/tutorial/:tutorialId",
-		component: Tutorial,
+		path: "/sandbox/:sandboxId",
+		component: Sandbox,
 	},
 ] as const;
 

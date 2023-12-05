@@ -4,21 +4,21 @@ import { useRoute } from "vue-router";
 
 const route = useRoute();
 
-const currentTutorial = computed(() => {
-	return route.params["tutorialId"];
+const currentSandbox = computed(() => {
+	return route.params["sandboxId"];
 });
 
 watch(
-	() => currentTutorial.value,
+	() => currentSandbox.value,
 	() => {
-		fetch(`http://localhost:3000/tutorial/${currentTutorial.value}`, {
+		fetch(`http://localhost:3000/sandbox/${currentSandbox.value}`, {
 			method: "POST",
 		});
 	},
 	{ immediate: true },
 );
 
-const tutorials = import.meta.glob("../tutorials/*/Index.vue", {
+const sandboxes = import.meta.glob("../sandboxes/*/Index.vue", {
 	import: "default",
 	eager: true,
 });
@@ -27,7 +27,7 @@ const tutorials = import.meta.glob("../tutorials/*/Index.vue", {
 <template>
 	<div>
 		<component
-			:is="tutorials[`../tutorials/${currentTutorial}/Index.vue`]"
+			:is="sandboxes[`../sandboxes/${currentSandbox}/Index.vue`]"
 		></component>
 	</div>
 </template>

@@ -1,18 +1,49 @@
-# Vue 3 + TypeScript + Vite
+# UI Sandbox
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A simple and fast minimal framework for teaching vue+ts.
+UI Sandbox allows you to define multiple interactive sandboxes to teach using different scenarios.
 
-## Recommended IDE Setup
+Runs on vite, and a minimal express backend for managing files.
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## How to use UI Sandbox
 
-## Type Support For `.vue` Imports in TS
+Requires Node.js version 20.10.0 or higher.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+1. Clone this repository `git clone https://github.com/ElectronicBlueberry/UI-Sandbox.git`
+2. Install dependencies `npm i`
+3. Run `npm run main`
+4. Open `http://localhost:8000/`
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## How to add a Custom Sandbox
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+In `src/sandbox_templates` create a folder with the name of your sandbox in snake_case.
+
+Add a `meta.json` file, containing category and order.
+
+Example:
+
+```json
+{
+    "category": "Basics",
+    "order": 5
+}
+```
+
+The order does not have to be sequential.
+
+Create a sub-folder called `template`, and inside a file called `Index.vue`.
+Anything inside this `template` folder will later be copied to the sandbox.
+
+If you add a new category, you can define it in `src/sandbox_templates/categories.json`,
+to set it's order relative to other categories.
+
+Your folder structure should look something like this:
+
+```bash
+sandbox_templates
+├── categories.json
+└── your_sandbox
+    ├── meta.json
+    └── template
+        └── Index.vue
+```

@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { getTutorialsWithMeta, prepareTutorial } from "./src/tutorials.js";
+import { getSandboxInfos, prepareSandbox } from "./src/sandboxes.js";
 import { HttpError } from "./src/Error.js";
 
 const app = express();
@@ -12,18 +12,18 @@ app.get("/", (_req, res) => {
 	res.send(JSON.stringify("running"));
 });
 
-app.get("/tutorials", async (_req, res) => {
+app.get("/sandboxes", async (_req, res) => {
 	try {
-		const tutorials = await getTutorialsWithMeta();
-		res.send(JSON.stringify(tutorials));
+		const sandboxes = await getSandboxInfos();
+		res.send(JSON.stringify(sandboxes));
 	} catch (e) {
 		HttpError.fromError(e as Error).send(res);
 	}
 });
 
-app.post("/tutorial/:tutorialId", async (req, res) => {
+app.post("/sandbox/:sandboxId", async (req, res) => {
 	try {
-		const path = await prepareTutorial(req.params.tutorialId);
+		const path = await prepareSandbox(req.params.sandboxId);
 		res.send(JSON.stringify(path));
 	} catch (e) {
 		HttpError.fromError(e as Error).send(res);
