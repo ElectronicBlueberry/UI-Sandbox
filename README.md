@@ -9,10 +9,22 @@ Runs on vite, and a minimal express backend for managing files.
 
 Requires Node.js version 20.10.0 or higher.
 
-1. Clone this repository `git clone https://github.com/ElectronicBlueberry/UI-Sandbox.git`
-2. Install dependencies `npm i`
-3. Run `npm run main`
-4. Open `http://localhost:8000/`
+1. Clone this repository
+   ```sh
+   git clone https://github.com/ElectronicBlueberry/UI-Sandbox.git
+   ```
+2. Install dependencies
+   ```sh
+   npm i
+   ```
+3. Run
+   ```sh
+   npm run main
+   ```
+4. Open
+   ```sh
+   http://localhost:8000/
+   ```
 
 ## How to add a Custom Sandbox
 
