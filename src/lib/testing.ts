@@ -1,5 +1,8 @@
 import { nextTick } from "vue";
 import { useSandboxReset } from "./useSandboxReset";
+import { useTestingContext } from "./useTestingContext";
+
+export const { context, clearContext } = useTestingContext();
 
 const rootSelector = ".main-sandbox-component";
 

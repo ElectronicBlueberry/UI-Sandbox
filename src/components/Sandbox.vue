@@ -4,6 +4,7 @@ import { useRoute } from "vue-router";
 import { prettifySandboxName } from "@/lib/prettify";
 import MarkdownIt from "markdown-it";
 import { useSandboxReset } from "@/lib/useSandboxReset";
+import { useTestingContext } from "@/lib/useTestingContext";
 
 const route = useRoute();
 
@@ -60,6 +61,8 @@ watch(
 	{ immediate: true },
 );
 
+const { currentContext, clearContext } = useTestingContext();
+
 async function runTest() {
 	const testUrl = `../templates/${currentSandbox.value}/test.ts`;
 	const testImport = tests[testUrl];
@@ -73,9 +76,17 @@ async function runTest() {
 			testStatus.value = "test passed";
 		} catch (e) {
 			const error = e as Error;
-			console.error("Test failed");
+
+			if (currentContext.value === null) {
+				console.error("Test failed");
+			} else {
+				console.error(`Test failed while ${currentContext.value}`);
+			}
+
 			testStatus.value = "test failed. see console for details";
 			console.error(error);
+		} finally {
+			clearContext();
 		}
 	} else {
 		console.warn("No test defined");
