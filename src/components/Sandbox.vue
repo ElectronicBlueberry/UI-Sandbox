@@ -25,7 +25,7 @@ const sandboxes = import.meta.glob("../sandboxes/*/Index.vue", {
 	eager: true,
 });
 
-const hints = import.meta.glob("../sandbox_templates/*/hint.md", { as: "raw" });
+const hints = import.meta.glob("../templates/*/hint.md", { as: "raw" });
 const currentHint = ref("");
 const md = new MarkdownIt();
 const hintDialog = ref<HTMLDialogElement | null>(null);
@@ -33,7 +33,7 @@ const hintDialog = ref<HTMLDialogElement | null>(null);
 watch(
 	() => currentSandbox.value,
 	async () => {
-		const hintUrl = `../sandbox_templates/${currentSandbox.value}/hint.md`;
+		const hintUrl = `../templates/${currentSandbox.value}/hint.md`;
 		const hintImport = hints[hintUrl];
 
 		if (hintImport) {
@@ -46,7 +46,7 @@ watch(
 	{ immediate: true },
 );
 
-const tests = import.meta.glob("../sandbox_templates/*/test.ts", {
+const tests = import.meta.glob("../templates/*/test.ts", {
 	import: "default",
 });
 const testStatus = ref("");
@@ -60,7 +60,7 @@ watch(
 );
 
 async function runTest() {
-	const testUrl = `../sandbox_templates/${currentSandbox.value}/test.ts`;
+	const testUrl = `../templates/${currentSandbox.value}/test.ts`;
 	const testImport = tests[testUrl];
 
 	if (testImport) {

@@ -28,7 +28,7 @@ Requires Node.js version 20.10.0 or higher.
 
 ## How to add a Custom Sandbox
 
-In `src/sandbox_templates` create a folder with the name of your sandbox in snake_case.
+In `src/templates` create a folder with the name of your sandbox in snake_case.
 
 Add a `meta.json` file, containing category and order.
 
@@ -46,7 +46,7 @@ The order does not have to be sequential.
 Create a sub-folder called `template`, and inside a file called `Index.vue`.
 Anything inside this `template` folder will later be copied to the sandbox.
 
-If you add a new category, you can define it in `src/sandbox_templates/categories.json`,
+If you add a new category, you can define it in `src/templates/categories.json`,
 to set it's order relative to other categories.
 
 Also create a `hint.md` and `test.ts` file.
@@ -59,7 +59,7 @@ It should throw an error if the test fails, otherwise resolve to void.
 Your folder structure should now look something like this:
 
 ```bash
-sandbox_templates
+templates
 ├── categories.json
 └── your_sandbox
     ├── hint.md

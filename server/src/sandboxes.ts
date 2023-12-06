@@ -3,7 +3,7 @@ import path from "path";
 import { HttpError } from "./Error.js";
 import type SandboxInformation from "../../api_types/sandbox";
 
-const sandboxTemplatesBasePath = "src/sandbox_templates";
+const sandboxTemplatesBasePath = "src/templates";
 const sandboxesBasePath = "src/sandboxes";
 
 async function getAllSandboxes() {
