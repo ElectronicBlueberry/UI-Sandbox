@@ -14,6 +14,7 @@
 .flex-layout {
 	display: flex;
 	flex-direction: column;
+	align-items: start;
 	gap: 1rem;
 	padding: 1rem;
 }
