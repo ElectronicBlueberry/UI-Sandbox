@@ -28,7 +28,13 @@ Requires Node.js version 20.10.0 or higher.
 
 ## How to add a Custom Sandbox
 
-In `src/templates` create a folder with the name of your sandbox in snake_case.
+You can create a new template using the command:
+
+```bash
+npm run new -- my_template
+```
+
+Alternatively, you can manually create a folder in `src/templates` with the name of your sandbox in snake_case.
 
 Add a `meta.json` file, containing category and order.
 

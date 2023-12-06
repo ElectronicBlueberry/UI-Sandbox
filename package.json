@@ -10,7 +10,8 @@
 		"run-server": "node server/dist/server/main.js",
 		"dev-server": "npm run build-server && npm run run-server",
 		"build": "vue-tsc && vite build",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"new": "node scripts/createTemplate.js"
 	},
 	"dependencies": {
 		"@fontsource/atkinson-hyperlegible": "^5.0.17",
