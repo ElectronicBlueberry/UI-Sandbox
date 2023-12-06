@@ -84,7 +84,7 @@ async function runTest() {
 			}
 
 			testStatus.value = "test failed. see console for details";
-			console.error(error);
+			console.log(error.message);
 		} finally {
 			clearContext();
 		}
