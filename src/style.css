@@ -7,6 +7,13 @@ body {
 	height: 100%;
 	margin: 0;
 	box-sizing: border-box;
+
+	--ui-sandbox-brand-gradient: linear-gradient(
+		130deg,
+		oklch(92% 0.15 85),
+		oklch(90.58% 0.1838 134.39),
+		oklch(92% 0.15 175)
+	);
 }
 
 body > #app {

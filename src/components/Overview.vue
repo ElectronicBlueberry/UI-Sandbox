@@ -48,12 +48,7 @@ h1 {
 	font-size: 3rem;
 	padding: 0.1em 0.4em;
 	border-radius: 0.5rem;
-	background: linear-gradient(
-		130deg,
-		oklch(92% 0.15 85),
-		oklch(90.58% 0.1838 134.39),
-		oklch(92% 0.15 175)
-	);
+	background: var(--ui-sandbox-brand-gradient);
 }
 
 .categories-container {

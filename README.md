@@ -49,13 +49,22 @@ Anything inside this `template` folder will later be copied to the sandbox.
 If you add a new category, you can define it in `src/sandbox_templates/categories.json`,
 to set it's order relative to other categories.
 
-Your folder structure should look something like this:
+Also create a `hint.md` and `test.ts` file.
+
+The contents of the hint file will be shown in a popup if the `hint` button is pressed in a sandbox.
+
+The default export function of the test file will be ran when the `test` button is pressed in a sandbox.
+It should throw an error if the test fails, otherwise resolve to void.
+
+Your folder structure should now look something like this:
 
 ```bash
 sandbox_templates
 ├── categories.json
 └── your_sandbox
+    ├── hint.md
     ├── meta.json
+    ├── test.ts
     └── template
         └── Index.vue
 ```
