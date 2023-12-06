@@ -3,6 +3,7 @@ import { computed, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { prettifySandboxName } from "@/lib/prettify";
 import MarkdownIt from "markdown-it";
+import { useSandboxReset } from "@/lib/useSandboxReset";
 
 const route = useRoute();
 
@@ -81,6 +82,8 @@ async function runTest() {
 		testStatus.value = "no test defined";
 	}
 }
+
+const { resetKey } = useSandboxReset();
 </script>
 
 <template>
@@ -122,7 +125,7 @@ async function runTest() {
 			</section>
 		</dialog>
 
-		<div class="main-sandbox-component">
+		<div class="main-sandbox-component" :key="resetKey">
 			<component
 				:is="sandboxes[`../sandboxes/${currentSandbox}/Index.vue`]"
 			></component>
@@ -183,7 +186,6 @@ async function runTest() {
 
 .sandbox-page__button:hover {
 	background: oklch(90% 0.18 var(--hue-active));
-	text-decoration: underline;
 	box-shadow: 4px 4px 0 oklch(80% 0.18 var(--hue-active));
 }
 

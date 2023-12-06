@@ -1,6 +1,7 @@
-import { expect, find } from "@/lib/testing";
+import { expect, find, resetSandbox } from "@/lib/testing";
 
-export default function test() {
+export default async function test() {
+	await resetSandbox();
 	const heading = find("h1");
 	expect(heading.text).toBe("Hello World");
 }

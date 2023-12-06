@@ -1,3 +1,6 @@
+import { nextTick } from "vue";
+import { useSandboxReset } from "./useSandboxReset";
+
 const rootSelector = ".main-sandbox-component";
 
 class ElementWrapper {
@@ -11,6 +14,10 @@ class ElementWrapper {
 
 	isHtmlElement() {
 		return this.element instanceof HTMLElement;
+	}
+
+	isInputElement() {
+		return this.element instanceof HTMLInputElement;
 	}
 
 	get text() {
@@ -29,6 +36,57 @@ class ElementWrapper {
 
 	get attrs() {
 		return this.element.attributes;
+	}
+
+	get value() {
+		if (!this.isInputElement()) {
+			throw new Error(
+				`Can not get value on element "${this.selector}", because it is not an HTMLInputElement`,
+			);
+		}
+
+		return (this.element as HTMLInputElement).value;
+	}
+
+	async setValue(newValue: string) {
+		if (!this.isInputElement()) {
+			throw new Error(
+				`Can not set value on element "${this.selector}", because it is not an HTMLInputElement`,
+			);
+		}
+
+		(this.element as HTMLInputElement).value = newValue;
+
+		const event = new Event("input", {
+			bubbles: true,
+			cancelable: true,
+		});
+
+		(this.element as HTMLInputElement).dispatchEvent(event);
+
+		await nextTick();
+	}
+
+	async click() {
+		if (!this.isHtmlElement()) {
+			throw new Error(
+				`Can not click element "${this.selector}", because it is not an HTMLElement`,
+			);
+		}
+
+		(this.element as HTMLElement).click();
+		await nextTick();
+	}
+
+	async focus() {
+		if (!this.isHtmlElement()) {
+			throw new Error(
+				`Can not focus element "${this.selector}", because it is not an HTMLElement`,
+			);
+		}
+
+		(this.element as HTMLElement).focus();
+		await nextTick();
 	}
 
 	find(selector: string) {
@@ -53,6 +111,12 @@ export function find(selector: string): ElementWrapper {
 	}
 
 	return new ElementWrapper(element, selector);
+}
+
+export async function resetSandbox() {
+	const { reset } = useSandboxReset();
+	reset();
+	await nextTick();
 }
 
 function typeMatch(a: unknown, b: unknown) {
@@ -117,7 +181,7 @@ function objectEquality(a: object | null, b: object | null) {
 }
 
 class Expecter {
-	value: unknown;
+	private value: unknown;
 
 	constructor(value: unknown) {
 		this.value = value;
@@ -164,6 +228,24 @@ class Expecter {
 				`Partial value mismatch!\nExpected: ${partialValue}\nIn Actual: ${this.value}`,
 			);
 		}
+	}
+
+	toBeBetween(from: number) {
+		if (typeof this.value !== "number") {
+			throw new Error(`Wrong type! Value ${this.value} is not a number`);
+		}
+
+		return {
+			and: (to: number) => {
+				const valid =
+					(this.value as number) >= from && (this.value as number) <= to;
+				if (!valid) {
+					throw new Error(
+						`Range Error!\nActual value: ${this.value}\nNot in range: from ${from} to ${to}`,
+					);
+				}
+			},
+		};
 	}
 
 	private assertType(otherValue: unknown) {
@@ -230,6 +312,73 @@ class Expecter {
 			default:
 				return new Expecter(Boolean(this.value));
 		}
+	}
+
+	get not() {
+		return new InvertedExpecter(this, this.value);
+	}
+}
+
+class InvertedExpecter {
+	private expecter: Expecter;
+	private value: unknown;
+
+	constructor(expecter: Expecter, value: unknown) {
+		this.expecter = expecter;
+		this.value = value;
+	}
+
+	toBe(otherValue: unknown) {
+		let valid = true;
+
+		try {
+			this.expecter.toBe(otherValue);
+			valid = false;
+		} catch (_e) {
+			valid = true;
+		}
+
+		if (!valid) {
+			throw new Error(
+				`Value mismatch!\nExpected not to be: ${otherValue}\nFound: ${this.value}`,
+			);
+		}
+	}
+
+	toContain(otherValue: unknown) {
+		let valid = true;
+
+		try {
+			this.expecter.toContain(otherValue);
+			valid = false;
+		} catch (_e) {
+			valid = true;
+		}
+
+		if (!valid) {
+			throw new Error(
+				`Partial value mismatch!\nExpected: ${otherValue}\nNot to be in Actual: ${this.value}`,
+			);
+		}
+	}
+
+	toBeBetween(from: number) {
+		if (typeof this.value !== "number") {
+			throw new Error(`Wrong type! Value ${this.value} is not a number`);
+		}
+
+		return {
+			and: (to: number) => {
+				const invalid =
+					(this.value as number) >= from && (this.value as number) <= to;
+
+				if (!invalid) {
+					throw new Error(
+						`Range Error!\nActual value: ${this.value}\nShould not be in range: from ${from} to ${to}`,
+					);
+				}
+			},
+		};
 	}
 }
 

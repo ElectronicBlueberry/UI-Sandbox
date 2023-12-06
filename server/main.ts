@@ -12,18 +12,18 @@ app.get("/", (_req, res) => {
 	res.send(JSON.stringify("running"));
 });
 
-app.get("/sandboxes", async (_req, res) => {
+app.get("/sandboxes", (_req, res) => {
 	try {
-		const sandboxes = await getSandboxInfos();
+		const sandboxes = getSandboxInfos();
 		res.send(JSON.stringify(sandboxes));
 	} catch (e) {
 		HttpError.fromError(e as Error).send(res);
 	}
 });
 
-app.post("/sandbox/:sandboxId", async (req, res) => {
+app.post("/sandbox/:sandboxId", (req, res) => {
 	try {
-		const path = await prepareSandbox(req.params.sandboxId);
+		const path = prepareSandbox(req.params.sandboxId);
 		res.send(JSON.stringify(path));
 	} catch (e) {
 		HttpError.fromError(e as Error).send(res);

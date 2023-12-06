@@ -1,4 +1,4 @@
-import fs from "fs/promises";
+import fs from "fs";
 import path from "path";
 import { HttpError } from "./Error.js";
 import type SandboxInformation from "../../api_types/sandbox";
@@ -6,8 +6,8 @@ import type SandboxInformation from "../../api_types/sandbox";
 const sandboxTemplatesBasePath = "src/templates";
 const sandboxesBasePath = "src/sandboxes";
 
-async function getAllSandboxes() {
-	const sandboxTemplates = await fs.readdir(sandboxTemplatesBasePath, {
+function getAllSandboxes() {
+	const sandboxTemplates = fs.readdirSync(sandboxTemplatesBasePath, {
 		withFileTypes: true,
 	});
 
@@ -18,18 +18,16 @@ async function getAllSandboxes() {
 	return directories.map((directory) => directory.name);
 }
 
-export async function getSandboxInfos() {
-	const allSandboxes = await getAllSandboxes();
-	const sandboxMetas = await Promise.all(
-		allSandboxes.map((sandbox) => getSandboxMeta(sandbox)),
-	);
+export function getSandboxInfos() {
+	const allSandboxes = getAllSandboxes();
+	const sandboxMetas = allSandboxes.map((sandbox) => getSandboxMeta(sandbox));
 	const byCategory: Record<string, SandboxInformation[]> = {};
 
 	let categories: string[] = [];
 	const categoriesPath = path.join(sandboxTemplatesBasePath, "categories.json");
 
 	try {
-		categories = JSON.parse(await fs.readFile(categoriesPath, "utf-8"));
+		categories = JSON.parse(fs.readFileSync(categoriesPath, "utf-8"));
 	} catch (_e) {
 		console.warn(
 			`No categories defined, "${categoriesPath}" could not be read.`,
@@ -69,11 +67,11 @@ interface Meta {
 	order?: number;
 }
 
-async function getSandboxMeta(id: string): Promise<Meta> {
+function getSandboxMeta(id: string): Meta {
 	const filePath = path.join(sandboxTemplatesBasePath, id, "meta.json");
 
 	try {
-		const contents = await fs.readFile(filePath, "utf-8");
+		const contents = fs.readFileSync(filePath, "utf-8");
 		return JSON.parse(contents);
 	} catch (_e) {
 		console.warn(`Sandbox ${id} has no meta.json file`);
@@ -83,19 +81,19 @@ async function getSandboxMeta(id: string): Promise<Meta> {
 	}
 }
 
-export async function prepareSandbox(id: string) {
-	fs.mkdir(sandboxesBasePath, { recursive: true });
+export function prepareSandbox(id: string) {
+	fs.mkdirSync(sandboxesBasePath, { recursive: true });
 
-	if (!(await validSandboxId(id))) {
+	if (!validSandboxId(id)) {
 		throw new HttpError(`No such sandbox: ${id}`, 404);
 	}
 
-	if (!(await doesSandboxExist(id))) {
+	if (!doesSandboxExist(id)) {
 		console.log(`Sandbox with id "${id}" not yet created. Copying template...`);
 
-		fs.mkdir(path.join(sandboxesBasePath, id), { recursive: true });
+		fs.mkdirSync(path.join(sandboxesBasePath, id), { recursive: true });
 
-		await fs.cp(
+		fs.cpSync(
 			path.join(sandboxTemplatesBasePath, id, "template"),
 			path.join(sandboxesBasePath, id),
 			{ recursive: true },
@@ -105,12 +103,12 @@ export async function prepareSandbox(id: string) {
 	return path.join(sandboxesBasePath, id);
 }
 
-async function validSandboxId(id: string) {
-	return (await getAllSandboxes()).includes(id);
+function validSandboxId(id: string) {
+	return getAllSandboxes().includes(id);
 }
 
-async function doesSandboxExist(id: string) {
-	const existingSandboxesDir = await fs.readdir(sandboxesBasePath, {
+function doesSandboxExist(id: string) {
+	const existingSandboxesDir = fs.readdirSync(sandboxesBasePath, {
 		withFileTypes: true,
 	});
 
@@ -119,7 +117,7 @@ async function doesSandboxExist(id: string) {
 		.map((dirent) => dirent.name);
 
 	if (existingSandboxes.includes(id)) {
-		const sandboxDir = await fs.readdir(path.join(sandboxesBasePath, id));
+		const sandboxDir = fs.readdirSync(path.join(sandboxesBasePath, id));
 		return sandboxDir.includes("Index.vue");
 	} else {
 		return false;
