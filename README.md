@@ -9,6 +9,8 @@ Runs on vite, and a minimal express backend for managing files.
 
 Requires Node.js version 20.10.0 or higher.
 
+On Windows, requires [Microsoft Visual C++ Redistributable 2015+](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#visual-studio-2015-2017-2019-and-2022).
+
 1. Clone this repository
    ```sh
    git clone https://github.com/ElectronicBlueberry/UI-Sandbox.git
