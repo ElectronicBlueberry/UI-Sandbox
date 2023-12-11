@@ -108,7 +108,7 @@ class ElementWrapper {
 		const list = this.element.querySelectorAll(selector);
 
 		if (list.length === 0) {
-			throw new Error(
+			console.warn(
 				`No children of element "${this.selector}" found with selector "${selector}"`,
 			);
 		}
@@ -130,6 +130,10 @@ class ElementWrapperList {
 
 	get elements() {
 		return this.wrappers.map((wrapper) => wrapper.element);
+	}
+
+	get texts() {
+		return this.wrappers.map((wrapper) => wrapper.text);
 	}
 
 	at(index: number) {
@@ -159,7 +163,7 @@ export function findAll(selector: string): ElementWrapperList {
 	const list = document.querySelectorAll(`${rootSelector} ${selector}`);
 
 	if (list.length === 0) {
-		throw new Error(`No elements found with selector "${selector}"`);
+		console.warn(`No elements found with selector "${selector}"`);
 	}
 
 	return new ElementWrapperList(list, selector);
@@ -261,18 +265,22 @@ class Expecter {
 	}
 
 	toContain(partialValue: unknown) {
-		this.assertType(partialValue);
 		let valid = true;
+		if (Array.isArray(this.value)) {
+			valid = this.value.includes(partialValue);
+		} else {
+			this.assertType(partialValue);
 
-		switch (typeof this.value) {
-			case "object":
-				valid = objectEquality(partialValue as object, this.value);
-				break;
-			case "string":
-				valid = this.value.includes(partialValue as string);
-				break;
-			default:
-				valid = this.value === partialValue;
+			switch (typeof this.value) {
+				case "object":
+					valid = objectEquality(partialValue as object, this.value);
+					break;
+				case "string":
+					valid = this.value.includes(partialValue as string);
+					break;
+				default:
+					valid = this.value === partialValue;
+			}
 		}
 
 		if (!valid) {
