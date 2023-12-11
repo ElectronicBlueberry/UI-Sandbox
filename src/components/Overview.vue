@@ -1,14 +1,28 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { prettifySandboxName } from "@/lib/prettify";
+import LoadingIndicator from "./LoadingIndicator.vue";
 import type SandboxInformation from "../../api_types/sandbox";
 
 const sandboxes = ref<Record<string, SandboxInformation[]>>({});
+const loading = ref(true);
+const showLoading = ref(false);
 
-onMounted(async () => {
-	const response = await fetch("http://localhost:3000/sandboxes");
-	sandboxes.value = await response.json();
-});
+setTimeout(() => (showLoading.value = true), 100);
+
+onMounted(tryToLoad);
+
+const loadingTryPause = 1000;
+
+async function tryToLoad() {
+	try {
+		const response = await fetch("http://localhost:3000/sandboxes");
+		sandboxes.value = await response.json();
+		loading.value = false;
+	} catch (_e) {
+		setTimeout(tryToLoad, loadingTryPause);
+	}
+}
 </script>
 
 <template>
@@ -16,7 +30,10 @@ onMounted(async () => {
 		<h1>Available Sandboxes</h1>
 	</div>
 
-	<div class="categories-container">
+	<div v-if="loading" class="loading">
+		<LoadingIndicator v-if="showLoading" />
+	</div>
+	<div v-else class="categories-container">
 		<section v-for="category in Object.keys(sandboxes)" class="category">
 			<h2>{{ category }}</h2>
 
@@ -49,6 +66,12 @@ h1 {
 	padding: 0.1em 0.4em;
 	border-radius: 0.5rem;
 	background: var(--ui-sandbox-brand-gradient);
+}
+
+.loading {
+	display: grid;
+	place-items: center;
+	height: 200px;
 }
 
 .categories-container {
