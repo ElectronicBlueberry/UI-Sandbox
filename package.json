@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"main": "run-p dev-server dev",
+		"template-dev": "VITE_TEMPLATE_MODE=true npm run main",
 		"dev": "vite",
 		"build-server": "tsc --project server/tsconfig.json",
 		"run-server": "node server/dist/server/main.js",

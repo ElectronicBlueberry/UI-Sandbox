@@ -76,3 +76,17 @@ templates
     └── template
         └── Index.vue
 ```
+
+## Template Mode
+
+When developing new sandboxes, you can run UI-Sandbox in template mode,
+to see your template changes directly instead of a new sandbox being created
+from your template every time you navigate to it.
+
+To do so use:
+
+```bash
+npm run template-dev
+```
+
+instead of `npm run main`

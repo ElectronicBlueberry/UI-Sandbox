@@ -12,19 +12,36 @@ const currentSandbox = computed<string | undefined>(() => {
 	return route.params["sandboxId"] as string;
 });
 
+const templateMode = (import.meta.env.VITE_TEMPLATE_MODE ?? false) as boolean;
+
 watch(
 	() => currentSandbox.value,
 	() => {
-		fetch(`http://localhost:3000/sandbox/${currentSandbox.value}`, {
-			method: "POST",
-		});
+		if (!templateMode) {
+			fetch(`http://localhost:3000/sandbox/${currentSandbox.value}`, {
+				method: "POST",
+			});
+		}
 	},
 	{ immediate: true },
 );
 
-const sandboxes = import.meta.glob("../sandboxes/*/Index.vue", {
-	import: "default",
-	eager: true,
+const sandboxes = templateMode
+	? import.meta.glob("../templates/*/template/Index.vue", {
+			import: "default",
+			eager: true,
+	  })
+	: import.meta.glob("../sandboxes/*/Index.vue", {
+			import: "default",
+			eager: true,
+	  });
+
+const sandboxComponent = computed(() => {
+	if (templateMode) {
+		return sandboxes[`../templates/${currentSandbox.value}/template/Index.vue`];
+	} else {
+		return sandboxes[`../sandboxes/${currentSandbox.value}/Index.vue`];
+	}
 });
 
 const hints = import.meta.glob("../templates/*/hint.md", { as: "raw" });
@@ -137,9 +154,7 @@ const { resetKey } = useSandboxReset();
 		</dialog>
 
 		<div class="main-sandbox-component" :key="resetKey">
-			<component
-				:is="sandboxes[`../sandboxes/${currentSandbox}/Index.vue`]"
-			></component>
+			<component :is="sandboxComponent"></component>
 		</div>
 	</div>
 </template>
