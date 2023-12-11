@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 import { prettifySandboxName } from "@/lib/prettify";
 import LoadingIndicator from "./LoadingIndicator.vue";
 import type SandboxInformation from "../../api_types/sandbox";
+import { useRouter } from "vue-router";
 
 const sandboxes = ref<Record<string, SandboxInformation[]>>({});
 const loading = ref(true);
@@ -23,6 +24,25 @@ async function tryToLoad() {
 		setTimeout(tryToLoad, loadingTryPause);
 	}
 }
+
+const templateMode = (import.meta.env.VITE_TEMPLATE_MODE ?? false) as boolean;
+const router = useRouter();
+
+async function onLinkClick(e: MouseEvent, sandbox: string) {
+	if (e.ctrlKey || e.shiftKey || e.metaKey || e.button !== 1) {
+		return;
+	}
+
+	e.preventDefault();
+
+	if (!templateMode) {
+		await fetch(`http://localhost:3000/sandbox/${sandbox}`, {
+			method: "POST",
+		});
+	}
+
+	router.push((e.target as HTMLAnchorElement).href);
+}
 </script>
 
 <template>
@@ -39,9 +59,12 @@ async function tryToLoad() {
 
 			<ul>
 				<li v-for="sandbox in sandboxes[category]">
-					<router-link :to="`/sandbox/${sandbox.name}`">
+					<a
+						@click="(e) => onLinkClick(e, sandbox.name)"
+						:href="`/sandbox/${sandbox.name}`"
+					>
 						{{ prettifySandboxName(sandbox.name) }}
-					</router-link>
+					</a>
 				</li>
 			</ul>
 		</section>
