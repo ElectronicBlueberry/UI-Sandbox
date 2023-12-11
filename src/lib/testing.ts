@@ -93,8 +93,7 @@ class ElementWrapper {
 	}
 
 	find(selector: string) {
-		const newSelector = `${this.selector} ${selector}`;
-		const element = document.querySelector(`${rootSelector} ${newSelector}`);
+		const element = this.element.querySelector(selector);
 
 		if (!element) {
 			throw new Error(
@@ -102,7 +101,47 @@ class ElementWrapper {
 			);
 		}
 
-		return new ElementWrapper(element, newSelector);
+		return new ElementWrapper(element, `${this.selector} ${selector}`);
+	}
+
+	findAll(selector: string) {
+		const list = this.element.querySelectorAll(selector);
+
+		if (list.length === 0) {
+			throw new Error(
+				`No children of element "${this.selector}" found with selector "${selector}"`,
+			);
+		}
+
+		return new ElementWrapperList(list, `${this.selector} ${selector}`);
+	}
+}
+
+class ElementWrapperList {
+	wrappers: ElementWrapper[];
+	selector: string;
+
+	constructor(elements: NodeListOf<Element>, selector: string) {
+		this.wrappers = Array.from(elements.entries()).map(
+			([_index, element]) => new ElementWrapper(element, selector),
+		);
+		this.selector = selector;
+	}
+
+	get elements() {
+		return this.wrappers.map((wrapper) => wrapper.element);
+	}
+
+	at(index: number) {
+		const element = this.wrappers[index];
+
+		if (!element) {
+			throw new Error(
+				`No element with index "${index}" found in element list "${this.selector}". List has a length of ${this.elements.length}`,
+			);
+		}
+
+		return element;
 	}
 }
 
@@ -114,6 +153,16 @@ export function find(selector: string): ElementWrapper {
 	}
 
 	return new ElementWrapper(element, selector);
+}
+
+export function findAll(selector: string): ElementWrapperList {
+	const list = document.querySelectorAll(`${rootSelector} ${selector}`);
+
+	if (list.length === 0) {
+		throw new Error(`No elements found with selector "${selector}"`);
+	}
+
+	return new ElementWrapperList(list, selector);
 }
 
 export async function resetSandbox() {
