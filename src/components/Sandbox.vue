@@ -237,6 +237,7 @@ const { resetKey } = useSandboxReset();
 	background: var(--ui-sandbox-brand-gradient);
 	padding: 2px;
 	border: none;
+	max-width: min(80%, 800px);
 }
 
 .sandbox-page__modal-content {

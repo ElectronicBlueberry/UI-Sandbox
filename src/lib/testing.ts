@@ -51,6 +51,14 @@ class ElementWrapper {
 		return (this.element as HTMLInputElement).value;
 	}
 
+	get computedStyle() {
+		return getComputedStyle(this.element);
+	}
+
+	getComputedCssValue(property: string) {
+		return this.computedStyle.getPropertyValue(property);
+	}
+
 	async setValue(newValue: string) {
 		if (!this.isInputElement()) {
 			throw new Error(
