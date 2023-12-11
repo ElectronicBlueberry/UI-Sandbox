@@ -1,5 +1,9 @@
 export function rgbToHex(rgb: { r: number; g: number; b: number }) {
-	return `#${rgb.r.toString(16)}${rgb.g.toString(16)}${rgb.b.toString(16)}`;
+	function nToH(n: number) {
+		return n.toString(16).padStart(2, "0");
+	}
+
+	return `#${nToH(rgb.r)}${nToH(rgb.g)}${nToH(rgb.b)}`;
 }
 
 export function hexToRgb(hex: string) {
@@ -20,7 +24,9 @@ export function hexToRgb(hex: string) {
 export function rgbFromString(rgbString: string) {
 	const rgb = { r: 0, g: 0, b: 0 };
 
-	const result = /^rgb\(([0-9]{2}) ([0-9]{2}) ([0-9]{2})\)/i.exec(rgbString);
+	const result = /^rgb\(([0-9]{1,3}), ([0-9]{1,3}), ([0-9]{1,3})\)/i.exec(
+		rgbString,
+	);
 	if (!result) {
 		throw new Error(`String "${rgbString}" could not be parsed as rgb`);
 	}
