@@ -367,9 +367,9 @@ class Expecter {
 			case "boolean":
 				return this;
 			case "string":
-				if (this.value.toLocaleLowerCase() === "true") {
+				if (this.value.toLowerCase() === "true") {
 					return new Expecter(true);
-				} else if (this.value.toUpperCase() === "false") {
+				} else if (this.value.toLowerCase() === "false") {
 					return new Expecter(false);
 				} else {
 					return new Expecter(undefined);
