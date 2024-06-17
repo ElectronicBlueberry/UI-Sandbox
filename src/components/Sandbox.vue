@@ -188,6 +188,15 @@ const { resetKey } = useSandboxReset();
 	flex-grow: 1;
 }
 
+/* --- Page --- */
+.sandbox-page {
+	height: 100%;
+}
+
+.main-sandbox-component {
+	height: 100%;
+}
+
 /* --- Buttons --- */
 .sandbox-page__button {
 	--hue: 175;

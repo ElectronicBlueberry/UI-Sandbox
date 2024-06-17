@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"@fontsource/atkinson-hyperlegible": "^5.0.17",
+		"@vueuse/core": "^10.11.0",
 		"cors": "^2.8.5",
 		"express": "^4.18.2",
 		"markdown-it": "^13.0.2",
