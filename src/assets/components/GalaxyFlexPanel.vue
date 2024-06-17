@@ -16,9 +16,9 @@ watch(
 	() => position.value,
 	() => {
 		if (props.side === "left") {
-			panelWidth.value = clamp(position.value.x, 200, 800);
+			panelWidth.value = clamp(position.value.x + 6, 250, 800);
 		} else {
-			panelWidth.value = clamp(window.innerWidth - position.value.x, 200, 800);
+			panelWidth.value = clamp(window.innerWidth - position.value.x, 250, 800);
 		}
 	},
 );
@@ -82,5 +82,7 @@ watch(
 .flex-panel-content {
 	grid-area: slot;
 	pointer-events: none;
+	display: flex;
+	flex-direction: column;
 }
 </style>

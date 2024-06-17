@@ -6,10 +6,12 @@ import GalaxyFlexPanel from "./GalaxyFlexPanel.vue";
 	<div class="galaxy-panel-layout">
 		<GalaxyFlexPanel side="left" class="tools panel">
 			<h2>Tools</h2>
+			<input type="text" placeholder="search tools" />
 		</GalaxyFlexPanel>
 		<section class="main"></section>
 		<GalaxyFlexPanel side="right" class="history panel">
 			<h2>History</h2>
+			<input type="text" placeholder="search datasets" />
 		</GalaxyFlexPanel>
 	</div>
 </template>
@@ -34,6 +36,18 @@ import GalaxyFlexPanel from "./GalaxyFlexPanel.vue";
 	h2 {
 		margin: 0.5rem 1rem;
 		font-weight: normal;
+		font-size: 1.1rem;
+	}
+
+	input {
+		margin: 0.5rem 1rem;
+		padding: 4px 8px;
+		height: 20px;
+		outline: none;
+		border-radius: 4px;
+		border-color: var(--gx-brand-secondary-button);
+		border-style: solid;
+		border-width: 1px;
 	}
 }
 

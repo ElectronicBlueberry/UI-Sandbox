@@ -46,28 +46,30 @@ async function onLinkClick(e: MouseEvent, sandbox: string) {
 </script>
 
 <template>
-	<div class="hero">
-		<h1>Available Sandboxes</h1>
-	</div>
+	<div class="overview">
+		<div class="hero">
+			<h1>Available Sandboxes</h1>
+		</div>
 
-	<div v-if="loading" class="loading">
-		<LoadingIndicator v-if="showLoading" />
-	</div>
-	<div v-else class="categories-container">
-		<section v-for="category in Object.keys(sandboxes)" class="category">
-			<h2>{{ category }}</h2>
+		<div v-if="loading" class="loading">
+			<LoadingIndicator v-if="showLoading" />
+		</div>
+		<div v-else class="categories-container">
+			<section v-for="category in Object.keys(sandboxes)" class="category">
+				<h2>{{ category }}</h2>
 
-			<ul>
-				<li v-for="sandbox in sandboxes[category]">
-					<a
-						@click="(e) => onLinkClick(e, sandbox.name)"
-						:href="`/sandbox/${sandbox.name}`"
-					>
-						{{ prettifySandboxName(sandbox.name) }}
-					</a>
-				</li>
-			</ul>
-		</section>
+				<ul>
+					<li v-for="sandbox in sandboxes[category]">
+						<a
+							@click="(e) => onLinkClick(e, sandbox.name)"
+							:href="`/sandbox/${sandbox.name}`"
+						>
+							{{ prettifySandboxName(sandbox.name) }}
+						</a>
+					</li>
+				</ul>
+			</section>
+		</div>
 	</div>
 </template>
 

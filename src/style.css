@@ -19,4 +19,10 @@ body {
 body > #app {
 	height: 100%;
 	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+}
+
+body > #app > * {
+	flex: 1;
 }
