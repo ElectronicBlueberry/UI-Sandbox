@@ -54,13 +54,13 @@ import { count } from "@/lib/math";
 }
 
 .panel {
-	h2 {
+	& h2 {
 		margin: 0.5rem 1rem;
 		font-weight: normal;
 		font-size: 1.1rem;
 	}
 
-	input {
+	& input {
 		margin: 0.5rem 1rem;
 		padding: 4px 8px;
 		height: 20px;

@@ -65,7 +65,7 @@ watch(
 		grid-template-columns: 1fr auto;
 		grid-template-areas: "slot handle";
 
-		.drag-handle {
+		& .drag-handle {
 			border-left: 1px solid var(--drag-handle-color);
 		}
 	}
@@ -74,7 +74,7 @@ watch(
 		grid-template-columns: auto 10fr;
 		grid-template-areas: "handle slot";
 
-		.drag-handle {
+		& .drag-handle {
 			border-right: 1px solid var(--drag-handle-color);
 		}
 	}
