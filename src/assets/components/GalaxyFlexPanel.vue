@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useDraggable } from "@vueuse/core";
-import { clamp } from "@/lib/math";
+import { determineWidth } from "@/lib/math";
 
 const props = defineProps<{
 	side: "left" | "right";
@@ -9,16 +9,25 @@ const props = defineProps<{
 
 const panelWidth = ref(300);
 const dragHandle = ref<HTMLButtonElement | null>(null);
+const root = ref<HTMLElement | null>(null);
 
 const { position } = useDraggable(dragHandle);
 
 watch(
 	() => position.value,
 	() => {
-		if (props.side === "left") {
-			panelWidth.value = clamp(position.value.x + 6, 250, 800);
-		} else {
-			panelWidth.value = clamp(window.innerWidth - position.value.x, 250, 800);
+		const rectRoot = root.value?.getBoundingClientRect();
+		const rectDraggable = dragHandle.value?.getBoundingClientRect();
+
+		if (rectRoot && rectDraggable) {
+			panelWidth.value = determineWidth(
+				rectRoot,
+				rectDraggable,
+				250,
+				900,
+				props.side,
+				position.value.x,
+			);
 		}
 	},
 );
@@ -26,6 +35,7 @@ watch(
 
 <template>
 	<section
+		ref="root"
 		class="galaxy-drag-panel"
 		:class="{
 			'side-left': props.side === 'left',
@@ -45,12 +55,18 @@ watch(
 	width: var(--panel-width);
 	display: grid;
 
+	--drag-handle-color: color-mix(
+		in oklch,
+		var(--gx-brand-secondary),
+		var(--gx-brand-dark) 20%
+	);
+
 	&.side-left {
 		grid-template-columns: 1fr auto;
 		grid-template-areas: "slot handle";
 
 		.drag-handle {
-			border-left: 1px solid var(--gx-brand-secondary-button);
+			border-left: 1px solid var(--drag-handle-color);
 		}
 	}
 
@@ -59,7 +75,7 @@ watch(
 		grid-template-areas: "handle slot";
 
 		.drag-handle {
-			border-right: 1px solid var(--gx-brand-secondary-button);
+			border-right: 1px solid var(--drag-handle-color);
 		}
 	}
 }
@@ -68,7 +84,7 @@ watch(
 	grid-area: handle;
 	border: none;
 	border-width: 0;
-	background-color: white;
+	background-color: var(--gx-white);
 	padding: 0;
 	width: 6px;
 	cursor: col-resize;
