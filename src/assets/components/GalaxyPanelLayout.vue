@@ -17,7 +17,9 @@ import { count } from "@/lib/math";
 				></div>
 			</div>
 		</GalaxyFlexPanel>
-		<section class="main"></section>
+		<section class="main">
+			<slot></slot>
+		</section>
 		<GalaxyFlexPanel side="right" class="history panel">
 			<h2>History</h2>
 			<input type="text" placeholder="search datasets" />
