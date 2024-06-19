@@ -15,10 +15,10 @@ export default async function test() {
 	});
 
 	context("testing if sub-sections have different colors");
-	const parentSections = mainPanel.findAll("section:has(section)");
+	const parentSections = mainPanel.findAll(":scope > section");
 
 	parentSections.wrappers.forEach((parentSection) => {
-		const subSections = parentSection.findAll("section");
+		const subSections = parentSection.findAll(":scope > section");
 
 		const parentSectionColor =
 			parentSection.computedStyle.backgroundColor ??
