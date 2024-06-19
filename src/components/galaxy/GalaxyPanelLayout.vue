@@ -6,30 +6,37 @@ import { count } from "@/lib/math";
 <template>
 	<div class="galaxy-panel-layout">
 		<GalaxyFlexPanel side="left" class="tools panel">
-			<h2>Tools</h2>
-			<input type="text" placeholder="search tools" />
-			<div class="placeholder-list">
-				<div
-					v-for="i in count(10)"
-					:key="i"
-					class="tool placeholder"
-					:style="`--fade: ${i}0%;`"
-				></div>
+			<div class="panel-content">
+				<h2>Tools</h2>
+				<input type="text" placeholder="search tools" />
+				<div class="placeholder-list">
+					<div
+						v-for="i in count(10)"
+						:key="i"
+						class="tool placeholder"
+						:style="`--fade: ${i}0%;`"
+					></div>
+				</div>
 			</div>
 		</GalaxyFlexPanel>
-		<section class="main">
-			<slot></slot>
-		</section>
+		<div class="scroll-wrapper">
+			<section class="panel-content main">
+				<slot></slot>
+			</section>
+		</div>
+
 		<GalaxyFlexPanel side="right" class="history panel">
-			<h2>History</h2>
-			<input type="text" placeholder="search datasets" />
-			<div class="placeholder-list">
-				<div
-					v-for="i in count(6)"
-					:key="i"
-					class="dataset placeholder"
-					:style="`--fade: ${Math.floor(i + 4)}0%;`"
-				></div>
+			<div class="panel-content">
+				<h2>History</h2>
+				<input type="text" placeholder="search datasets" />
+				<div class="placeholder-list">
+					<div
+						v-for="i in count(6)"
+						:key="i"
+						class="dataset placeholder"
+						:style="`--fade: ${Math.floor(i + 4)}0%;`"
+					></div>
+				</div>
 			</div>
 		</GalaxyFlexPanel>
 	</div>
@@ -54,6 +61,9 @@ import { count } from "@/lib/math";
 }
 
 .panel {
+	overflow: hidden;
+	position: relative;
+
 	& h2 {
 		margin: 0.5rem 1rem;
 		font-weight: normal;
@@ -76,9 +86,22 @@ import { count } from "@/lib/math";
 	}
 }
 
-.main {
+.scroll-wrapper {
+	position: relative;
 	flex: 1;
+}
+
+.panel-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+.main {
 	padding: 1rem;
+	overflow-y: auto;
 }
 
 .placeholder-list {
