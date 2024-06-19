@@ -454,7 +454,7 @@ class InvertedExpecter {
 
 		if (!valid) {
 			throw new Error(
-				`Instance mismatch!\nExpected no to be instance of: ${
+				`Instance mismatch!\nExpected to not be instance of: ${
 					classConstructor.name
 				}\nFound: ${this.value?.constructor.name ?? "constructor-less object"}`,
 			);
