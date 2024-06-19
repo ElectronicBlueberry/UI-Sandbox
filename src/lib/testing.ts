@@ -123,6 +123,18 @@ class ElementWrapper {
 
 		return new ElementWrapperList(list, `${this.selector} ${selector}`);
 	}
+
+	getNextSibling() {
+		const element = this.element.nextElementSibling;
+
+		if (!element) {
+			throw new Error(
+				`Element with selector "${this.selector}" has no next sibling`,
+			);
+		}
+
+		return new ElementWrapper(element, `${this.selector} + *`);
+	}
 }
 
 class ElementWrapperList {
@@ -272,6 +284,23 @@ class Expecter {
 		}
 	}
 
+	toBeInstanceOf(classConstructor: Function) {
+		if (typeof this.value !== "object" && this.value !== null) {
+			const type = this.value ? typeof this.value : "null";
+			throw new Error(
+				`Type mismatch during instance check!\nExpected type of object\nFound: ${type}`,
+			);
+		}
+
+		if (!((this.value as any) instanceof classConstructor)) {
+			throw new Error(
+				`Instance mismatch!\nExpected instance of: ${
+					classConstructor.name
+				}\nFound: ${this.value?.constructor.name ?? "constructor-less object"}`,
+			);
+		}
+	}
+
 	toContain(partialValue: unknown) {
 		let valid = true;
 		if (Array.isArray(this.value)) {
@@ -409,6 +438,25 @@ class InvertedExpecter {
 		if (!valid) {
 			throw new Error(
 				`Value mismatch!\nExpected not to be: ${otherValue}\nFound: ${this.value}`,
+			);
+		}
+	}
+
+	toBeInstanceOf(classConstructor: Function) {
+		let valid = true;
+
+		try {
+			this.expecter.toBeInstanceOf(classConstructor);
+			valid = false;
+		} catch (_e) {
+			valid = true;
+		}
+
+		if (!valid) {
+			throw new Error(
+				`Instance mismatch!\nExpected no to be instance of: ${
+					classConstructor.name
+				}\nFound: ${this.value?.constructor.name ?? "constructor-less object"}`,
 			);
 		}
 	}
