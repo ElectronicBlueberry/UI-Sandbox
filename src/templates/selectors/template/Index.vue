@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GalaxyPanelLayout from "@/assets/components/GalaxyPanelLayout.vue";
+import GalaxyPanelLayout from "@/components/galaxy/GalaxyPanelLayout.vue";
 </script>
 
 <template>

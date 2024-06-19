@@ -5,7 +5,14 @@ import { determineWidth } from "@/lib/math";
 
 const props = defineProps<{
 	side: "left" | "right";
+	minWidth?: number;
+	maxWidth?: number;
 }>();
+
+const defaults = {
+	minWidth: 250,
+	maxWidth: 900,
+} as const;
 
 const panelWidth = ref(300);
 const dragHandle = ref<HTMLButtonElement | null>(null);
@@ -23,8 +30,8 @@ watch(
 			panelWidth.value = determineWidth(
 				rectRoot,
 				rectDraggable,
-				250,
-				900,
+				props.minWidth ?? defaults.minWidth,
+				props.maxWidth ?? defaults.maxWidth,
 				props.side,
 				position.value.x,
 			);
