@@ -124,6 +124,11 @@ class ElementWrapper {
 		return new ElementWrapperList(list, `${this.selector} ${selector}`);
 	}
 
+	hasChild(selector: string) {
+		const element = this.element.querySelector(selector);
+		return Boolean(element);
+	}
+
 	getNextSibling() {
 		const element = this.element.nextElementSibling;
 

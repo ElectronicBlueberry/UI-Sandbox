@@ -32,4 +32,29 @@ export default async function test() {
 			expect(sectionColor).not.toBe(parentSectionColor);
 		});
 	});
+
+	context("checking if only boxes without heading have a border");
+	const newsItemBox = mainPanel.find(".news-item-box");
+	const newsItems = newsItemBox.findAll(".news-item");
+
+	newsItems.wrappers.forEach((newsItem) => {
+		const borderStyle = newsItem.computedStyle.borderWidth;
+
+		if (!newsItem.hasChild("h3")) {
+			expect(borderStyle).not.toBe("0px");
+		} else {
+			expect(borderStyle).toBe("0px");
+		}
+	});
+
+	context("checking if only boxes with an img tag have a light-blue color");
+	newsItems.wrappers.forEach((newsItem) => {
+		const backgroundColor = newsItem.computedStyle.backgroundColor;
+
+		if (newsItem.hasChild("img")) {
+			expect(backgroundColor).toBe("rgb(109, 147, 252)");
+		} else {
+			expect(backgroundColor).not.toBe("rgb(109, 147, 252)");
+		}
+	});
 }

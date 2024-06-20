@@ -109,6 +109,8 @@ section {
 
 /* --- Functional Selectors --- */
 .news-item-box {
+	--news-item-with-img-color: rgb(109, 147, 252);
+
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 	gap: 20px;
