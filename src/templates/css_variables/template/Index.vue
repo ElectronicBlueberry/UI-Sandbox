@@ -3,7 +3,7 @@ import GalaxyPanelLayout from "@/components/galaxy/GalaxyPanelLayout.vue";
 </script>
 
 <template>
-	<GalaxyPanelLayout class="main">
+	<GalaxyPanelLayout>
 		<h1>Custom CSS Parameters, or CSS Variables</h1>
 	</GalaxyPanelLayout>
 </template>
