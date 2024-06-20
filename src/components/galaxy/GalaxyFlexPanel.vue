@@ -61,6 +61,7 @@ watch(
 .galaxy-drag-panel {
 	width: var(--panel-width);
 	display: grid;
+	position: relative;
 
 	--drag-handle-color: color-mix(
 		in oklch,
@@ -104,7 +105,6 @@ watch(
 
 .flex-panel-content {
 	grid-area: slot;
-	pointer-events: none;
 	display: flex;
 	flex-direction: column;
 }

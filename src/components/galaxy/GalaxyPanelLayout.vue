@@ -6,7 +6,7 @@ import { count } from "@/lib/math";
 <template>
 	<div class="galaxy-panel-layout">
 		<GalaxyFlexPanel side="left" class="tools panel">
-			<div class="panel-content">
+			<div class="side-panel-content">
 				<h2>Tools</h2>
 				<input type="text" placeholder="search tools" />
 				<div class="placeholder-list">
@@ -26,7 +26,7 @@ import { count } from "@/lib/math";
 		</div>
 
 		<GalaxyFlexPanel side="right" class="history panel">
-			<div class="panel-content">
+			<div class="side-panel-content">
 				<h2>History</h2>
 				<input type="text" placeholder="search datasets" />
 				<div class="placeholder-list">
@@ -62,18 +62,17 @@ import { count } from "@/lib/math";
 
 .panel {
 	overflow: hidden;
-	position: relative;
 
 	& h2 {
-		margin: 0.5rem 1rem;
 		font-weight: normal;
 		font-size: 1.1rem;
+		margin: 0;
 	}
 
 	& input {
-		margin: 0.5rem 1rem;
 		padding: 4px 8px;
 		height: 20px;
+		flex-shrink: 0;
 		outline: none;
 		border-radius: 4px;
 		border-color: color-mix(
@@ -86,12 +85,12 @@ import { count } from "@/lib/math";
 	}
 }
 
-.scroll-wrapper {
-	position: relative;
-	flex: 1;
-}
-
-.panel-content {
+.side-panel-content {
+	pointer-events: none;
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem 1rem;
+	gap: 1rem;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -99,13 +98,23 @@ import { count } from "@/lib/math";
 	bottom: 0;
 }
 
+.scroll-wrapper {
+	position: relative;
+	flex: 1;
+}
+
 .main {
 	padding: 1rem;
 	overflow-y: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 .placeholder-list {
-	margin: 0.5rem 1rem;
+	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
