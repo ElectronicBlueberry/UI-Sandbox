@@ -25,12 +25,25 @@ watch(
 	<div class="main" :style="themeStyle">
 		<Masthead></Masthead>
 		<GalaxyPanelLayout>
-			<select v-model="currentTheme">
-				<option value="null">-- no theme --</option>
-				<option v-for="theme in Object.keys(themes)" :value="theme">
-					{{ theme }}
-				</option>
-			</select>
+			<h1>Themes</h1>
+			<label>
+				Current Theme
+				<select v-model="currentTheme">
+					<option value="null">-- no theme --</option>
+					<option v-for="theme in Object.keys(themes)" :value="theme">
+						{{ theme }}
+					</option>
+				</select>
+			</label>
+
+			<section class="alert-box">
+				<h2>Alert Box</h2>
+				<p>
+					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia
+					officia odit delectus accusantium accusamus, necessitatibus
+					consectetur numquam et optio voluptatem.
+				</p>
+			</section>
 		</GalaxyPanelLayout>
 	</div>
 </template>

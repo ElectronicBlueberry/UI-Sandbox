@@ -4,36 +4,36 @@ import { count } from "@/lib/math";
 </script>
 
 <template>
-	<div class="galaxy-panel-layout">
-		<GalaxyFlexPanel side="left" class="tools panel">
-			<div class="side-panel-content">
+	<div class="gx__galaxy-panel-layout">
+		<GalaxyFlexPanel side="left" class="gx__tools gx__panel">
+			<div class="gx__side-panel-content">
 				<h2>Tools</h2>
 				<input type="text" placeholder="search tools" />
-				<div class="placeholder-list">
+				<div class="gx__placeholder-list">
 					<div
 						v-for="i in count(10)"
 						:key="i"
-						class="tool placeholder"
+						class="gx__tool gx__placeholder"
 						:style="`--fade: ${i}0%;`"
 					></div>
 				</div>
 			</div>
 		</GalaxyFlexPanel>
-		<div class="scroll-wrapper">
-			<section class="panel-content main">
+		<div class="gx__scroll-wrapper">
+			<section class="gx__panel-content gx__main">
 				<slot></slot>
 			</section>
 		</div>
 
-		<GalaxyFlexPanel side="right" class="history panel">
-			<div class="side-panel-content">
+		<GalaxyFlexPanel side="right" class="gx__history gx__panel">
+			<div class="gx__side-panel-content">
 				<h2>History</h2>
 				<input type="text" placeholder="search datasets" />
-				<div class="placeholder-list">
+				<div class="gx__placeholder-list">
 					<div
 						v-for="i in count(6)"
 						:key="i"
-						class="dataset placeholder"
+						class="gx__dataset gx__placeholder"
 						:style="`--fade: ${Math.floor(i + 4)}0%;`"
 					></div>
 				</div>
@@ -43,7 +43,7 @@ import { count } from "@/lib/math";
 </template>
 
 <style scoped>
-.galaxy-panel-layout {
+.gx__galaxy-panel-layout {
 	--gx-white: white;
 	--gx-brand-light: #f8f9fa;
 	--gx-brand-dark: #2c3143;
@@ -56,11 +56,11 @@ import { count } from "@/lib/math";
 	height: 100%;
 }
 
-.tools {
+.gx__tools {
 	background-color: var(--gx-brand-light);
 }
 
-.panel {
+.gx__panel {
 	overflow: hidden;
 
 	& h2 {
@@ -85,7 +85,7 @@ import { count } from "@/lib/math";
 	}
 }
 
-.side-panel-content {
+.gx__side-panel-content {
 	pointer-events: none;
 	display: flex;
 	flex-direction: column;
@@ -98,12 +98,12 @@ import { count } from "@/lib/math";
 	bottom: 0;
 }
 
-.scroll-wrapper {
+.gx__scroll-wrapper {
 	position: relative;
 	flex: 1;
 }
 
-.main {
+.gx__main {
 	padding: 1rem;
 	overflow-y: auto;
 	position: absolute;
@@ -113,7 +113,7 @@ import { count } from "@/lib/math";
 	bottom: 0;
 }
 
-.placeholder-list {
+.gx__placeholder-list {
 	flex-shrink: 0;
 	display: flex;
 	flex-direction: column;
@@ -121,10 +121,10 @@ import { count } from "@/lib/math";
 	overflow: hidden;
 }
 
-.placeholder {
+.gx__placeholder {
 	border-radius: 4px;
 
-	&.tool {
+	&.gx__tool {
 		height: 60px;
 		background-color: color-mix(
 			in oklch,
@@ -133,7 +133,7 @@ import { count } from "@/lib/math";
 		);
 	}
 
-	&.dataset {
+	&.gx__dataset {
 		height: 110px;
 		background-color: color-mix(
 			in oklch,
