@@ -23,6 +23,10 @@ class ElementWrapper {
 		return this.element instanceof HTMLInputElement;
 	}
 
+	isSelectElement() {
+		return this.element instanceof HTMLSelectElement;
+	}
+
 	get text() {
 		if (!this.isHtmlElement()) {
 			throw new Error(
@@ -42,9 +46,9 @@ class ElementWrapper {
 	}
 
 	get value() {
-		if (!this.isInputElement()) {
+		if (!this.isInputElement() && !this.isSelectElement()) {
 			throw new Error(
-				`Can not get value on element "${this.selector}", because it is not an HTMLInputElement`,
+				`Can not get value on element "${this.selector}", because it is not an HTMLInputElement or an HTMLSelectElement`,
 			);
 		}
 
@@ -60,18 +64,27 @@ class ElementWrapper {
 	}
 
 	async setValue(newValue: string) {
-		if (!this.isInputElement()) {
+		if (!this.isInputElement() && !this.isSelectElement()) {
 			throw new Error(
-				`Can not set value on element "${this.selector}", because it is not an HTMLInputElement`,
+				`Can not set value on element "${this.selector}", because it is not an HTMLInputElement or an HTMLSelectElement`,
 			);
 		}
 
 		(this.element as HTMLInputElement).value = newValue;
 
-		const event = new Event("input", {
-			bubbles: true,
-			cancelable: true,
-		});
+		let event;
+
+		if (this.isInputElement()) {
+			event = new Event("input", {
+				bubbles: true,
+				cancelable: true,
+			});
+		} else {
+			event = new Event("change", {
+				bubbles: true,
+				cancelable: true,
+			});
+		}
 
 		(this.element as HTMLInputElement).dispatchEvent(event);
 

@@ -28,7 +28,7 @@ watch(
 			<h1>Themes</h1>
 			<label>
 				Current Theme
-				<select v-model="currentTheme">
+				<select class="theme-selector" v-model="currentTheme">
 					<option value="null">-- no theme --</option>
 					<option v-for="theme in Object.keys(themes)" :value="theme">
 						{{ theme }}
