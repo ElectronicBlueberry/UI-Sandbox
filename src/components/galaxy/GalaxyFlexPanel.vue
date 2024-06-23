@@ -60,6 +60,8 @@ watch(
 <style scoped>
 .galaxy-drag-panel {
 	width: var(--panel-width);
+	min-width: var(--panel-width);
+	max-width: var(--panel-width);
 	display: grid;
 
 	--drag-handle-color: color-mix(

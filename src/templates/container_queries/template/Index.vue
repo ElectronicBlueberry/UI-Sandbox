@@ -8,7 +8,7 @@ import { count } from "@/lib/math";
 <template>
 	<GalaxyPanelLayout>
 		<div class="container-queries-page">
-			<GalaxyFlexPanel class="flex-panel" side="left">
+			<GalaxyFlexPanel class="flex-panel" side="left" :max-width="1200">
 				<div class="element-gird-left">
 					<ContainerElement v-for="i in count(12)" :key="i"></ContainerElement>
 				</div>
@@ -38,8 +38,11 @@ import { count } from "@/lib/math";
 }
 
 .element-grid-right {
+	width: 100%;
 	display: grid;
 	gap: 8px;
 	padding: 12px;
+	align-items: stretch;
+	grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
 }
 </style>
