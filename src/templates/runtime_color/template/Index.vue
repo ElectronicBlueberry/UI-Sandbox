@@ -3,6 +3,8 @@ import GalaxyPanelLayout from "@/components/galaxy/GalaxyPanelLayout.vue";
 import { count } from "@/lib/math";
 import { computed, ref } from "vue";
 
+const buttonColor = ref("#f0f00f");
+
 const color1 = ref("#ff0000");
 const color2 = ref("#00ff00");
 const color3 = ref("#0000ff");
@@ -19,6 +21,15 @@ const colorVars = computed(() => ({
 <template>
 	<GalaxyPanelLayout>
 		<h1>Runtime CSS color calculations</h1>
+
+		<div class="button-exercise">
+			<label>
+				Button Color
+				<input v-model="buttonColor" class="button-color-input" type="color" />
+			</label>
+
+			<button class="colorable-button">Color Me!</button>
+		</div>
 
 		<form>
 			<label>
@@ -54,6 +65,41 @@ const colorVars = computed(() => ({
 </template>
 
 <style scoped>
+.button-exercise {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	margin-bottom: 40px;
+}
+
+.colorable-button {
+	width: 200px;
+	height: 32px;
+	border-style: solid;
+	border-radius: 4px;
+
+	background-color: rgb(102, 222, 226);
+	border-color: rgb(72, 157, 206);
+	color: rgb(46, 102, 134);
+
+	&:hover,
+	&:focus {
+		background-color: rgb(131, 238, 241);
+		border-color: rgb(95, 182, 233);
+		color: rgb(46, 102, 134);
+	}
+
+	&:focus-visible {
+		outline: 3px solid rgb(29, 165, 243);
+	}
+
+	&:active {
+		background-color: rgb(84, 202, 206);
+		border-color: rgb(55, 135, 182);
+		color: rgb(30, 74, 99);
+	}
+}
+
 form {
 	display: flex;
 	gap: 25px;
