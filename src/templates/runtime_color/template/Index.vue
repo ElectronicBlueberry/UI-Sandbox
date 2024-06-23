@@ -45,6 +45,7 @@ const colorVars = computed(() => ({
 		<div class="button-grid" :style="colorVars">
 			<button
 				v-for="i in count(100)"
+				class="color-button"
 				:key="i"
 				:style="`--x-pos: ${(i % 10) / 9}; --y-pos: ${Math.floor(i / 10) / 9}`"
 			></button>
