@@ -33,21 +33,10 @@ export default async function test() {
 		});
 	});
 
-	context("checking if only boxes without heading have a border");
+	context("checking if only boxes with an img tag have a light-blue color");
 	const newsItemBox = mainPanel.find(".news-item-box");
 	const newsItems = newsItemBox.findAll(".news-item");
 
-	newsItems.wrappers.forEach((newsItem) => {
-		const borderStyle = newsItem.computedStyle.borderWidth;
-
-		if (!newsItem.hasChild("h3")) {
-			expect(borderStyle).not.toBe("0px");
-		} else {
-			expect(borderStyle).toBe("0px");
-		}
-	});
-
-	context("checking if only boxes with an img tag have a light-blue color");
 	newsItems.wrappers.forEach((newsItem) => {
 		const backgroundColor = newsItem.computedStyle.backgroundColor;
 
@@ -55,6 +44,17 @@ export default async function test() {
 			expect(backgroundColor).toBe("rgb(109, 147, 252)");
 		} else {
 			expect(backgroundColor).not.toBe("rgb(109, 147, 252)");
+		}
+	});
+
+	context("checking if only boxes without heading have a border");
+	newsItems.wrappers.forEach((newsItem) => {
+		const borderStyle = newsItem.computedStyle.borderWidth;
+
+		if (!newsItem.hasChild("h3")) {
+			expect(borderStyle).not.toBe("0px");
+		} else {
+			expect(borderStyle).toBe("0px");
 		}
 	});
 }
