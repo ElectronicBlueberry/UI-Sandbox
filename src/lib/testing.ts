@@ -297,7 +297,7 @@ class Expecter {
 
 		if (!valid) {
 			throw new Error(
-				`Value mismatch!\nExpected: ${otherValue}\nFound: ${this.value}`,
+				`Value mismatch!\nExpected: ${otherValue}\nFound: ${this.toString()}`,
 			);
 		}
 	}
@@ -323,6 +323,8 @@ class Expecter {
 		let valid = true;
 		if (Array.isArray(this.value)) {
 			valid = this.value.includes(partialValue);
+		} else if (this.value instanceof Set) {
+			valid = this.value.has(partialValue);
 		} else {
 			this.assertType(partialValue);
 
@@ -340,14 +342,14 @@ class Expecter {
 
 		if (!valid) {
 			throw new Error(
-				`Partial value mismatch!\nExpected: ${partialValue}\nIn Actual: ${this.value}`,
+				`Partial value mismatch!\nExpected: ${partialValue}\nIn Actual: ${this.toString()}`,
 			);
 		}
 	}
 
 	toBeBetween(from: number) {
 		if (typeof this.value !== "number") {
-			throw new Error(`Wrong type! Value ${this.value} is not a number`);
+			throw new Error(`Wrong type! Value ${this.toString()} is not a number`);
 		}
 
 		return {
@@ -356,7 +358,7 @@ class Expecter {
 					(this.value as number) >= from && (this.value as number) <= to;
 				if (!valid) {
 					throw new Error(
-						`Range Error!\nActual value: ${this.value}\nNot in range: from ${from} to ${to}`,
+						`Range Error!\nActual value: ${this.toString()}\nNot in range: from ${from} to ${to}`,
 					);
 				}
 			},
@@ -366,7 +368,7 @@ class Expecter {
 	private assertType(otherValue: unknown) {
 		if (!typeMatch(this.value, otherValue)) {
 			throw new Error(
-				`Type mismatch.\nExpected: ${otherValue}\nFound: ${this.value}`,
+				`Type mismatch.\nExpected: ${otherValue}\nFound: ${this.toString()}`,
 			);
 		}
 	}
@@ -389,7 +391,7 @@ class Expecter {
 	}
 
 	asString() {
-		return new Expecter(`${this.value}`);
+		return new Expecter(this.toString());
 	}
 
 	asInteger() {
@@ -432,6 +434,14 @@ class Expecter {
 	get not() {
 		return new InvertedExpecter(this, this.value);
 	}
+
+	toString() {
+		if (this.value instanceof Set) {
+			return `${Array.from(this.value)}`;
+		} else {
+			return `${this.value}`;
+		}
+	}
 }
 
 class InvertedExpecter {
@@ -455,7 +465,7 @@ class InvertedExpecter {
 
 		if (!valid) {
 			throw new Error(
-				`Value mismatch!\nExpected not to be: ${otherValue}\nFound: ${this.value}`,
+				`Value mismatch!\nExpected not to be: ${otherValue}\nFound: ${this.expecter.toString()}`,
 			);
 		}
 	}
@@ -491,14 +501,16 @@ class InvertedExpecter {
 
 		if (!valid) {
 			throw new Error(
-				`Partial value mismatch!\nExpected: ${otherValue}\nNot to be in Actual: ${this.value}`,
+				`Partial value mismatch!\nExpected: ${otherValue}\nNot to be in Actual: ${this.expecter.toString()}`,
 			);
 		}
 	}
 
 	toBeBetween(from: number) {
 		if (typeof this.value !== "number") {
-			throw new Error(`Wrong type! Value ${this.value} is not a number`);
+			throw new Error(
+				`Wrong type! Value ${this.expecter.toString()} is not a number`,
+			);
 		}
 
 		return {
@@ -508,7 +520,7 @@ class InvertedExpecter {
 
 				if (!invalid) {
 					throw new Error(
-						`Range Error!\nActual value: ${this.value}\nShould not be in range: from ${from} to ${to}`,
+						`Range Error!\nActual value: ${this.expecter.toString()}\nShould not be in range: from ${from} to ${to}`,
 					);
 				}
 			},
