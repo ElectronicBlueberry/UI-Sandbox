@@ -35,8 +35,8 @@ import GalaxyPanelLayout from "@/components/galaxy/GalaxyPanelLayout.vue";
 
 	background-color: color-mix(
 		in oklch longer hue,
-		var(--box-color-to) 0%,
-		var(--box-color-from)
+		var(--box-color-from),
+		var(--box-color-to) 0%
 	);
 }
 </style>
