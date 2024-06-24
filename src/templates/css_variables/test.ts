@@ -14,7 +14,7 @@ export default async function test() {
 	expect(colorAfter).not.toBe(colorBefore);
 
 	context("checking if the slider moves the box");
-	await slider.setValue("1");
+	await slider.setValue("0");
 
 	const positionBefore = box.computedStyle.left;
 	await slider.setValue("1");
