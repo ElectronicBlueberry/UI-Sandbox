@@ -3,7 +3,7 @@ import { context, expect, find, resetSandbox } from "@/lib/testing";
 export default async function test() {
 	await resetSandbox();
 
-	const mainPanel = find(".galaxy-panel-layout .main");
+	const mainPanel = find(".gx__main");
 
 	context("checking if no span or div elements were added to heading elements");
 	const headings = mainPanel.findAll("h1, h2");
