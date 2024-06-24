@@ -3,8 +3,8 @@
 <template>
 	<section class="container-element">
 		<h2>Item</h2>
-		<div>Lorem ipsum dolor sit amet consectetur adipisicing elit.</div>
-		<button>Open Details</button>
+		<div>Lorem ipsum dolor sit amet consectetur</div>
+		<button>Details</button>
 	</section>
 </template>
 
@@ -12,6 +12,7 @@
 .container-element {
 	display: flex;
 	gap: 20px;
+
 	padding: 6px;
 	background-color: color-mix(
 		in oklch,
